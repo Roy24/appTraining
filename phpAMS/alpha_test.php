@@ -58,22 +58,42 @@ require_once("./alpha/include_pdo.php");
 
 <script>
     $(document).ready(function () {
+	
         $("#searchbox").on('keyup',function () {
             var key = $(this).val();
+		key = key.replace(/\s/g, ' ');
 			var kl = key.length;
 			if (kl < 3) {
 				$("#results").html("");
 			} else {
             $.ajax({
-                url:'alpha/app_result.php',
+                url:'http://www.omdbapi.com/',
                 type:'GET',
-                data:'keyword='+key,
+		dataType:'text',
+                data:{s: key,type: 'movie',r:'json'},
                 beforeSend:function () {
-                   // $("#results").slideUp('fast');
+                   //$("#results").slideUp('fast');
+                   // $("#results").html(data);
                 },
                 success:function (data) {
-                    $("#results").html(data);
-                    $("#results").slideDown('fast');
+		    var results = JSON.parse(data);
+		    if (results.Response == "True"){
+			console.log(results.Search[0].Title);
+			var r_array = results.Search;
+			var html_array = "";
+			var i=0;
+			while (i < r_array.length) {
+				console.log(results.Search[i].Title);
+				html_array += "<p>" + results.Search[i].Title + "</p>";
+				i++;
+			}
+			$("#results").html(html_array);
+			$("#results").slideDown('fast');
+		    } else {
+			$("#results").html("<p>No movie found</p>");
+		    }
+			console.log(results.Response);
+			console.log(key);
                 }
             });
 			}

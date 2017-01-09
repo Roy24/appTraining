@@ -1,5 +1,5 @@
 <?PHP
-require_once __DIR__ ."/../alpha_config/alpha_init.php";
+require_once __DIR__ ."/alpha_init.php";
 
 // Connect and interact with DB
 class adb {
@@ -46,6 +46,26 @@ class adb {
         } catch (PDOException $e) {
             exit($e->getMessage());
         }
+	
+	
+	///////////////////////////////////////////////////////////////////
+    	/*$tablename = 'phpbb_users';
+		$field_val = $this->SanitizeForSQL($search);
+        //$qry = "SELECT username FROM $tablename WHERE username_clean LIKE '%".$field_val."%' order by username limit 6";
+		
+        $result = mysql_query($qry,$this->connection);
+        if($result && mysql_num_rows($result) < 1)
+        {
+            return false;
+        }
+	$html_result;
+	while($row=mysql_fetch_array($result))
+	    {
+		$r_array[]  = $row['username'];	
+		$html_result .= $row['username'] . "<br />";
+	    }
+	//echo json_encode($r_array);
+        return $html_result;*/
     }
 
 
